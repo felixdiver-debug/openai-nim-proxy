@@ -18,7 +18,7 @@ const NIM_API_KEY = process.env.NIM_API_KEY;
 const SHOW_REASONING = true; // CHANGED TO TRUE: Shows reasoning with <think> tags
 
 // 🔥 THINKING MODE TOGGLE - Enables thinking for specific models that support it
-const ENABLE_THINKING_MODE = true; // CHANGED TO TRUE: Enables chat_template_kwargs thinking parameter
+const ENABLE_THINKING_MODE = false; // CHANGED TO TRUE: Enables chat_template_kwargs thinking parameter
 
 // Model mapping (adjust based on available NIM models)
 const MODEL_MAPPING = {
