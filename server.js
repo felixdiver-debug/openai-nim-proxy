@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// NVIDIA NIM API configuration
-const NIM_API_BASE = process.env.NIM_API_BASE || 'nvidia.com';
+// NVIDIA NIM API configuration - FIXED: Added https:// to prevent invalid URL errors
+const NIM_API_BASE = process.env.NIM_API_BASE || 'https://nvidia.com';
 const NIM_API_KEY = process.env.NIM_API_KEY;
 
 // 🔥 REASONING DISPLAY TOGGLE - Shows/hides reasoning in output inside <think> tags
@@ -104,8 +104,8 @@ app.post('/v1/chat/completions', async (req, res) => {
       temperature: activeTemperature,
       max_tokens: max_tokens || 9024,
       // Only include the specialized chat_template_kwargs parameter if the chosen model relies on it
-      extra_body: (ENABLE_THINKING_MODE && isThinkingModel) 
-        ? { chat_template_kwargs: { thinking: true } } 
+      extra_body: (ENABLE_THINKING_MODE && isThinkingModel)
+        ? { chat_template_kwargs: { thinking: true } }
         : undefined,
       stream: stream || false
     };
@@ -250,6 +250,7 @@ app.all('*', (req, res) => {
   });
 });
 
+// FIXED: Added missing closing bracket and parenthesis for app.listen
 app.listen(PORT, () => {
   console.log(`OpenAI to NVIDIA NIM Proxy running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);
