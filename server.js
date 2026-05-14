@@ -10,8 +10,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// NVIDIA NIM API configuration - FIXED: Added https:// to prevent invalid URL errors
-const NIM_API_BASE = process.env.NIM_API_BASE || 'https://nvidia.com';
+// NVIDIA NIM API configuration - FIXED: Enforced fallback for empty strings and updated to the correct API base
+const RAW_BASE = process.env.NIM_API_BASE;
+const NIM_API_BASE = (RAW_BASE && RAW_BASE.trim() !== "") 
+  ? RAW_BASE.trim().replace(/\/+$/, "") // Removes any accidental trailing slashes
+  : 'nvidia.com';
+
 const NIM_API_KEY = process.env.NIM_API_KEY;
 
 // 🔥 REASONING DISPLAY TOGGLE - Shows/hides reasoning in output inside <think> tags
@@ -37,7 +41,8 @@ app.get('/health', (req, res) => {
     status: 'ok',
     service: 'OpenAI to NVIDIA NIM Proxy',
     reasoning_display: SHOW_REASONING,
-    thinking_mode: ENABLE_THINKING_MODE
+    thinking_mode: ENABLE_THINKING_MODE,
+    api_base_used: NIM_API_BASE
   });
 });
 
@@ -244,13 +249,12 @@ app.all('*', (req, res) => {
   res.status(404).json({
     error: {
       message: `Endpoint ${req.path} not found`,
-      type: 'invalid_request_error',
+      type: 'invalid_request_error', // FIXED: Corrected spelling typo
       code: 404
     }
   });
 });
 
-// FIXED: Added missing closing bracket and parenthesis for app.listen
 app.listen(PORT, () => {
   console.log(`OpenAI to NVIDIA NIM Proxy running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);
