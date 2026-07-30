@@ -3,9 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 
-const app = express();
-const express = require('express');
-const app = express();
 const PORT = process.env.PORT || 3000;
 // Middleware (Move limits here and remove the blank express.json())
 app.use(cors());
