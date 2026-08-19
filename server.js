@@ -97,9 +97,7 @@ app.post('/v1/chat/completions', async (req, res) => {
   temperature: temperature || 0.6,
   max_tokens: max_tokens || 9024,
   stream: stream || false,
-  ...(ENABLE_THINKING_MODE && { 
-    thinking: { type: "enabled" }, 
-    reasoning_effort: "high" 
+    ...(ENABLE_THINKING_MODE && { chat_template_kwargs: { thinking: true } })
   })
 };
     
