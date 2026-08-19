@@ -96,7 +96,8 @@ app.post('/v1/chat/completions', async (req, res) => {
       messages: messages,
       temperature: temperature || 0.6,
       max_tokens: max_tokens || 9024,
-      stream: stream || false,...(ENABLE_THINKING_MODE && {
+      stream: stream || false,
+      ...(ENABLE_THINKING_MODE && {
         ...(nimModel.includes("glm") 
              ? { thinking: { type: "enabled", reasoning_effort: "max" } } 
               : { chat_template_kwargs: { thinking: true } })
