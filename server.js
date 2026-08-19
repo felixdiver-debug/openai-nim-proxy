@@ -91,15 +91,17 @@ app.post('/v1/chat/completions', async (req, res) => {
     }
     
     // Transform OpenAI request to NIM format
-    const nimRequest = {
-      model: nimModel,
-      messages: messages,
-      temperature: temperature || 0.6,
-      max_tokens: max_tokens || 9024,
-      stream: stream || false,
-       ...(ENABLE_THINKING_MODE && { chat_template_kwargs: { thinking: true },
-        reasoning_effort: "max" })
-    };
+   const nimRequest = {
+  model: nimModel,
+  messages: messages,
+  temperature: temperature || 0.6,
+  max_tokens: max_tokens || 9024,
+  stream: stream || false,
+  ...(ENABLE_THINKING_MODE && { 
+    thinking: { type: "enabled" }, 
+    reasoning_effort: "max" 
+  })
+};
     
     // Make request to NVIDIA NIM API
     const response = await axios.post(`${NIM_API_BASE}/chat/completions`, nimRequest, {
