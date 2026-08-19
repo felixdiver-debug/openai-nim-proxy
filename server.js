@@ -99,7 +99,7 @@ app.post('/v1/chat/completions', async (req, res) => {
   stream: stream || false,
   ...(ENABLE_THINKING_MODE && { 
     thinking: { type: "enabled" }, 
-    reasoning_effort: "max" 
+    reasoning_effort: "high" 
   })
 };
     
