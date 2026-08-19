@@ -97,10 +97,7 @@ app.post('/v1/chat/completions', async (req, res) => {
       temperature: temperature || 0.6,
       max_tokens: max_tokens || 9024,
       stream: stream || false,
-      ...(ENABLE_THINKING_MODE && {
-        ...(nimModel.includes("glm") 
-             ? { thinking: { type: "enabled", reasoning_effort: "max" } } 
-              : { chat_template_kwargs: { thinking: true } })
+       ...(ENABLE_THINKING_MODE && { chat_template_kwargs: { thinking: true } })
     };
     
     // Make request to NVIDIA NIM API
